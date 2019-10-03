@@ -1,0 +1,423 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sequence Alignment</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+    	let cardToggles = document.getElementsByClassName('card-toggle');
+    	for (let i = 0; i < cardToggles.length; i++) {
+    		cardToggles[i].addEventListener('click', e => {
+    			e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+    		});
+    	}
+    });
+</script>
+
+<style>
+.center {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.padding-top { padding-top: 1rem; }
+
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .card {
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar is-dark">
+<div class="container">
+<div class="navbar-brand">
+<a class="navbar-item" href="/" style="font-weight:bold;">Home</a>
+</div>
+<div class="navbar-start">
+<a href="/align" class="navbar-item">Sequence Alignment</a>
+<a href="/info" class="navbar-item">Info</a>
+</div>
+</div>
+</nav>
+
+
+</head>
+<body>
+	<section class="hero is-primary">
+		<div class="hero-body">
+			<div class="container center">
+				<h1 class="title is-size-2">Sequence Alignment</h1>
+				</div>
+				<div class="container center">
+				<h2 class="subtitle is-size-3">Please choose your alignment parameters</h2>
+				</div>
+		</div>
+	</section>
+	<section class ="section">
+    <form action="#" th:action="@{/align}" th:object="${align}" method="post" enctype="multipart/form-data">
+    	<div class="field">
+ 		 <label style="font-size:18px;" class="label">Alignment Type
+ 		 <span class="icon has-text-info">
+  			<a href="/info"><i class="fas fa-info-circle" title="Click to learn more about alignments"></i></a>
+		</span>
+ 		 </label>
+
+  			<div class="control">
+    			<div class="select">
+			    	<select style="font-size:18px;" th:field="*{alignment}">
+			    		<option style="font-size:18px;" th:value="'Global'" th:text="Global"></option>
+			   	 	<option style="font-size:18px;" th:value="'Local'" th:text="Local"></option>
+			   	 	<option style="font-size:18px;" th:value="'AffineGap'" th:text="AffineGap"></option>
+			   	 	<option style="font-size:18px;" th:value="'Overlap'" th:text="Overlap"></option>
+			   	 	<option style="font-size:18px;" th:value="'Fitting'" th:text="Fitting"></option>
+			   	 	<option style="font-size:18px;" th:value="'Semiglobal'" th:text="Semiglobal"></option>
+			   	 	</select>
+			   	 	</div>
+  				</div>
+			</div>
+		<div class="field padding-top">
+ 		 <label style="font-size:18px;" class="label">Select Scoring Matrix (Global, Local, AffineGap)
+ 		  <span class="icon has-text-info">
+  			<a href="/info"><i class="fas fa-info-circle" title="Click to learn more about scoring matrices"></i></a>
+		</span>
+ 		 </label>
+  			<div class="control">
+    			<div class="select">
+					<select style="font-size:18px;" th:field="*{scoringMatrix}">
+					<option  style="font-size:18px;" th:value="'None'" th:text="--"></option>
+					<option style="font-size:18px;" th:value="'BLOSUM50'" th:text="BLOSUM50"></option>
+			   	 	<option style="font-size:18px;" th:value="'BLOSUM62'" th:text="BLOSUM62"></option>
+			   	 	<option style="font-size:18px;" th:value="'BLOSUM80'" th:text="BLOSUM80"></option>
+			   	 	<option style="font-size:18px;" th:value="'PAM30'" th:text="PAM30"></option>
+			   	 	<option style="font-size:18px;" th:value="'PAM120'" th:text="PAM120"></option>
+			   	 	<option style="font-size:18px;" th:value="'PAM250'" th:text="PAM250"></option>
+					</select>
+					</div>
+					 <p class="help">If you do not select or create a scoring matrix for the specific alignments the calculations will depend on the gap penalty alone </p>
+  				</div>
+			</div>
+			
+	<div class="field padding-top scrolling-wrapper">
+		<div class="card is-fullwidth">
+			<header class="card-header">
+				<p style="font-size:18px;" class="card-header-title">Alternatively, you can create your own scoring matrix</p>
+				<a class="card-header-icon card-toggle">
+					<i class="fa fa-angle-down"></i>
+				</a>
+			</header>
+			<div class="card-content is-hidden">
+				<div class="content">
+					<table class="table has-text-right">
+  	<tr>
+  	
+    	<td>AA <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[0]}" /></td>
+    	<td>AC <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[1]}" /></td>
+    	<td>AD <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[2]}" /></td>
+    	<td>AE <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[3]}" /></td>
+    	<td>AF <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[4]}" /></td>
+    	<td>AG <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[5]}" /></td>
+    	<td>AH <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[6]}" /></td>
+    	<td>AI <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[7]}" /></td>
+    	<td>AK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[8]}" /></td>
+    	<td>AL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[9]}" /></td>
+    	<td>AM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[10]}" /></td>
+    	<td>AN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[11]}" /></td>
+    	<td>AP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[12]}" /></td>
+    	<td>AQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[13]}" /></td>
+    	<td>AR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[14]}" /></td>
+    	<td>AS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[15]}" /></td>
+    	<td>AT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[16]}" /></td>
+    	<td>AV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[17]}" /></td>
+    	<td>AW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[18]}" /></td>
+    	<td>AY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[19]}" /></td>
+
+ 	 </tr>
+ 	 <tr>
+    	<td>CC <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[20]}" /></td>
+    	<td>CD <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[21]}" /></td>
+    	<td>CE <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[22]}" /></td>
+    	<td>CF <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[23]}" /></td>
+    	<td>CG <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[24]}" /></td>
+    	<td>CH <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[25]}" /></td>
+    	<td>CI <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[26]}" /></td>
+    	<td>CK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[27]}" /></td>
+    	<td>CL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[28]}" /></td>
+    	<td>CM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[29]}" /></td>
+    	<td>CN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[30]}" /></td>
+    	<td>CP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[31]}" /></td>
+    	<td>CQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[32]}" /></td>
+    	<td>CR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[33]}" /></td>
+    	<td>CS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[34]}" /></td>
+    	<td>CT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[35]}" /></td>
+    	<td>CV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[36]}" /></td>
+    	<td>CW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[37]}" /></td>
+    	<td>CY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[38]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>DD <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[39]}" /></td>
+    	<td>DE <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[40]}" /></td>
+    	<td>DF <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[41]}" /></td>
+    	<td>DG <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[42]}" /></td>
+    	<td>DH <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[43]}" /></td>
+    	<td>DI <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[44]}" /></td>
+    	<td>DK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[45]}" /></td>
+    	<td>DL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[46]}" /></td>
+    	<td>DM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[47]}" /></td>
+    	<td>DN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[48]}" /></td>
+    	<td>DP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[49]}" /></td>
+    	<td>DQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[50]}" /></td>
+    	<td>DR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[51]}" /></td>
+    	<td>DS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[52]}" /></td>
+    	<td>DT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[53]}" /></td>
+    	<td>DV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[54]}" /></td>
+    	<td>DW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[55]}" /></td>
+    	<td>DY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[56]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>EE <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[57]}" /></td>
+    	<td>EF <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[58]}" /></td>
+    	<td>EG <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[59]}" /></td>
+    	<td>EH <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[60]}" /></td>
+    	<td>EI <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[61]}" /></td>
+    	<td>EK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[62]}" /></td>
+    	<td>EL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[63]}" /></td>
+    	<td>EM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[64]}" /></td>
+    	<td>EN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[65]}" /></td>
+    	<td>EP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[66]}" /></td>
+    	<td>EQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[67]}" /></td>
+    	<td>ER <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[68]}" /></td>
+    	<td>ES <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[69]}" /></td>
+    	<td>ET <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[70]}" /></td>
+    	<td>EV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[71]}" /></td>
+    	<td>EW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[72]}" /></td>
+    	<td>EY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[73]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>FF <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[74]}" /></td>
+    	<td>FG <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[75]}" /></td>
+    	<td>FH <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[76]}" /></td>
+    	<td>FI <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[77]}" /></td>
+    	<td>FK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[78]}" /></td>
+    	<td>FL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[79]}" /></td>
+    	<td>FM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[80]}" /></td>
+    	<td>FN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[81]}" /></td>
+    	<td>FP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[82]}" /></td>
+    	<td>FQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[83]}" /></td>
+    	<td>FR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[84]}" /></td>
+    	<td>FS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[85]}" /></td>
+    	<td>FT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[86]}" /></td>
+    	<td>FV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[87]}" /></td>
+    	<td>FW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[88]}" /></td>
+    	<td>FY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[89]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>GG <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[90]}" /></td>
+    	<td>GH <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[91]}" /></td>
+    	<td>GI <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[92]}" /></td>
+    	<td>GK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[93]}" /></td>
+    	<td>GL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[94]}" /></td>
+    	<td>GM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[95]}" /></td>
+    	<td>GN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[96]}" /></td>
+    	<td>GP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[97]}" /></td>
+    	<td>GQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[98]}" /></td>
+    	<td>GR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[99]}" /></td>
+    	<td>GS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[100]}" /></td>
+    	<td>GT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[101]}" /></td>
+    	<td>GV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[102]}" /></td>
+    	<td>GW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[103]}" /></td>
+    	<td>GY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[104]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>HH <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[105]}" /></td>
+    	<td>HI <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[106]}" /></td>
+    	<td>HK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[107]}" /></td>
+    	<td>HL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[108]}" /></td>
+    	<td>HM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[109]}" /></td>
+    	<td>HN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[110]}" /></td>
+    	<td>HP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[111]}" /></td>
+    	<td>HQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[112]}" /></td>
+    	<td>HR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[113]}" /></td>
+    	<td>HS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[114]}" /></td>
+    	<td>HT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[115]}" /></td>
+    	<td>HV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[116]}" /></td>
+    	<td>HW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[117]}" /></td>
+    	<td>HY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[118]}" /></td>
+ 	 </tr>
+ 	  <tr>
+    	<td>II <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[119]}" /></td>
+    	<td>IK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[120]}" /></td>
+    	<td>IL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[121]}" /></td>
+    	<td>IM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[122]}" /></td>
+    	<td>IN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[123]}" /></td>
+    	<td>IP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[124]}" /></td>
+    	<td>IQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[125]}" /></td>
+    	<td>IR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[126]}" /></td>
+    	<td>IS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[127]}" /></td>
+    	<td>IT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[128]}" /></td>
+    	<td>IV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[129]}" /></td>
+    	<td>IW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[130]}" /></td>
+    	<td>IY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[131]}" /></td>
+ 	 </tr>
+ 	  <tr>
+       	<td>KK <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[132]}" /></td>
+    	<td>KL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[133]}" /></td>
+    	<td>KM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[134]}" /></td>
+    	<td>KN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[135]}" /></td>
+    	<td>KP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[136]}" /></td>
+    	<td>KQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[137]}" /></td>
+    	<td>KR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[138]}" /></td>
+    	<td>KS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[139]}" /></td>
+    	<td>KT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[140]}" /></td>
+    	<td>KV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[141]}" /></td>
+    	<td>KW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[142]}" /></td>
+    	<td>KY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[143]}" /></td>
+ 	 </tr>
+ 	  <tr>
+    	<td>LL <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[144]}" /></td>
+    	<td>LM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[145]}" /></td>
+    	<td>LN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[146]}" /></td>
+    	<td>LP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[147]}" /></td>
+    	<td>LQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[148]}" /></td>
+    	<td>LR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[149]}" /></td>
+    	<td>LS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[150]}" /></td>
+    	<td>LT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[151]}" /></td>
+    	<td>LV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[152]}" /></td>
+    	<td>LW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[153]}" /></td>
+    	<td>LY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[154]}" /></td>
+ 	 </tr>
+ 	  <tr>
+    	<td>MM <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[155]}" /></td>
+    	<td>MN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[156]}" /></td>
+    	<td>MP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[157]}" /></td>
+    	<td>MQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[158]}" /></td>
+    	<td>MR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[159]}" /></td>
+    	<td>MS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[160]}" /></td>
+    	<td>MT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[161]}" /></td>
+    	<td>MV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[162]}" /></td>
+    	<td>MW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[163]}" /></td>
+    	<td>MY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[164]}" /></td>
+ 	 </tr>
+ 	  <tr>
+    	<td>NN <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[165]}" /></td>
+    	<td>NP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[166]}" /></td>
+    	<td>NQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[167]}" /></td>
+    	<td>NR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[168]}" /></td>
+    	<td>NS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[169]}" /></td>
+    	<td>NT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[170]}" /></td>
+    	<td>NV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[171]}" /></td>
+    	<td>NW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[172]}" /></td>
+    	<td>NY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[173]}" /></td>
+ 	 </tr>
+ 	  <tr>
+    	<td>PP <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[174]}" /></td>
+    	<td>PQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[175]}" /></td>
+    	<td>PR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[176]}" /></td>
+    	<td>PS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[177]}" /></td>
+    	<td>PT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[178]}" /></td>
+    	<td>PV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[179]}" /></td>
+    	<td>PW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[180]}" /></td>
+    	<td>PY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[181]}" /></td>
+ 	 </tr>
+ 	  <tr>
+    	<td>QQ <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[182]}" /></td>
+    	<td>QR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[183]}" /></td>
+    	<td>QS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[184]}" /></td>
+    	<td>QT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[185]}" /></td>
+    	<td>QV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[186]}" /></td>
+    	<td>QW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[187]}" /></td>
+    	<td>QY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[188]}" /></td>
+ 	 </tr>
+ 	  <tr>
+    	<td>RR <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[189]}" /></td>
+    	<td>RS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[190]}" /></td>
+    	<td>RT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[191]}" /></td>
+    	<td>RV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[192]}" /></td>
+    	<td>RW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[193]}" /></td>
+    	<td>RY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[194]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>SS <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[195]}" /></td>
+    	<td>ST <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[196]}" /></td>
+    	<td>SV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[197]}" /></td>
+    	<td>SW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[198]}" /></td>
+    	<td>SY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[199]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>TT <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[200]}" /></td>
+    	<td>TV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[201]}" /></td>
+    	<td>TW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[202]}" /></td>
+    	<td>TY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[203]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>VV <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[204]}" /></td>
+    	<td>VW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[205]}" /></td>
+    	<td>VY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[206]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>WW <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[207]}" /></td>
+    	<td>WY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[208]}" /></td>
+ 	 </tr>
+ 	 <tr>
+    	<td>YY <input type="text" style="width: 50px;" th:field="*{customScoringMatrix[209]}" /></td>
+ 	 </tr>
+	</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="field padding-top">
+  		<label style="font-size:18px;" class="label">Mismatch penalty (Overlap, Fitting, Semiglobal)
+  		 <span class="icon has-text-info">
+  			<i class="fas fa-info-circle" title="Penalty for aligning two different amino acids"></i>
+		</span>
+  		</label>
+ 			 <div class="control">
+   				 <input class="input" type="text" style="width: 50px;" placeholder="e.g 2" th:field="*{mismatch}">
+ 			 </div>
+		</div>
+		<div class="field padding-top">
+  		<label style="font-size:18px;" class="label">Gap penalty
+  		 <span class="icon has-text-info">
+  			<i class="fas fa-info-circle" title="Penalty for aligning amino acid of one sequence with a gap"></i>
+		</span></label>
+ 			 <div class="control">
+   				 <input class="input" style="width: 50px;" type="text" placeholder="e.g 1" th:field="*{gap}">
+ 			 </div>
+		</div>
+		         <p style="font-size:18px;"> Choose a file in fasta format </p>
+        <div class="file">        
+  <label class="file-label">
+    <input class="file-input" type="file" name="file">
+    <span class="file-cta">
+      <span class="file-icon">
+        <i class="fas fa-upload"></i>
+      </span>
+      <span class="file-label">
+        Choose a file…
+      </span>
+    </span>
+  </label>
+</div>
+<div class="columns is-gapless padding-top">
+<div class="column is-one-quarter padding-top">
+<input class="button is-primary" type="submit" value="Get results">
+</div>
+<div class="column is-one-quarter padding-top">
+<input class="button is-warning" type="reset" value="Reset">
+</div>
+</div>
+    </form>
+    </section>
+</body>
+</html>

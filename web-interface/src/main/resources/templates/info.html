@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sequence Alignment Information</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">    
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    	let cardToggles = document.getElementsByClassName('card-toggle');
+    	for (let i = 0; i < cardToggles.length; i++) {
+    		cardToggles[i].addEventListener('click', e => {
+    			e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+    		});
+    	}
+    });
+
+    </script>
+<style>
+.center {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.padding-top { padding-top: 1rem; }
+</style>
+</head>
+<body>
+<nav class="navbar is-dark">
+<div class="container">
+<div class="navbar-brand">
+<a class="navbar-item" href="/" style="font-weight:bold;">Home</a>
+</div>
+<div class="navbar-start">
+<a href="/align" class="navbar-item">Sequence Alignment</a>
+<a href="/info" class="navbar-item">Info</a>
+</div>
+</div>
+</nav>
+	<section class="hero is-info">
+		<div class="hero-body">
+			<div class="container center">
+				<h1 class="title is-size-2">Info</h1>
+				</div>
+				<div class="container center">
+				<h2 class="subtitle is-size-3">Know more about Sequence Alignment</h2>
+				</div>
+		</div>
+	</section>
+	<section class="section">
+	<div class="container">
+		<div class="card is-fullwidth">
+			<header class="card-header">
+				<p style="font-size:24px;" class="card-header-title">What is sequence alignment?</p>
+				<a class="card-header-icon card-toggle">
+					<i class="fa fa-angle-down"></i>
+				</a>
+			</header>
+			<div class="card-content is-hidden">
+				<div class="content">
+					<p>Sequence alignment is an essential procedure in biological studies where two biological sequences are compared (either DNA, RNA or protein). The aim of this process is to try to find the positions in the sequences that are homologous, which basically means that we are looking for the common positions in the sequences that can be related back to their common evolutionary history (common ancestry).
+More than one potential alignment can be taken into consideration when we try to align two sequences with one another, gaps and mismatched alignments can be introduced to increase the alignment possibilities and the best alignment can be determined based on scores given to matched, mismatched or gap alignments.
+For example, if we have high penalty for introducing mismatched alignment to the sequence below, then a better alignment will be to introduce a gap to the second sequence as follows. This way we only have one mismatch score and one gap score. Which is better than having two mismatched scores in this scenario.</p>
+
+<p>AACCT</p>
+<p>A- GCT</p>
+
+<p>These scores can be determined by inputting default values into the sequence alignment algorithm, or by introducing a matrix that contains mismatch scores for each pair that can exist in the sequence. </p>
+				</div>
+			</div>
+		</div>
+
+		<div class="card is-fullwidth">
+			<header class="card-header">
+				<p style="font-size:24px;" class="card-header-title">Types of sequence alignment</p>
+				<a class="card-header-icon card-toggle">
+					<i class="fa fa-angle-down"></i>
+				</a>
+			</header>
+			<div class="card-content is-hidden">
+				<div class="content">
+					<p><strong>Global alignment: </strong>in global alignment, it is assumed that the full length of the two sequences is homologous, thus we try to align the all positions in both sequences as optimally as possible. This assumption is not always accurate, resulting in huge sequence rearrangement and shuffling, in this kind of case, only subsections of the sequences can be found to be homologous.</p>
+	<p><strong>Affine Gap Alignment: </strong> affine gap is a variant of global alignment in which starting a gap in the alignment gives a high penalty but continuing with the same gap has less penalty. </p>
+<p><strong>Local Alignment:</strong> local alignment is an alternative approach that can be used instead of global alignment. In which only subsection of the sequences is aligned, thus, highly variant subsections of the sequences will be eliminated from the alignment. Many variants of this type of alignment have been made such as:</p>
+<p><strong>Overlap alignment</strong>, which happens when a suffix of a sequence aligns with a prefix of the other sequence.</p>
+ <p><strong>Semi-global alignment</strong>, which ignores the gaps and the beginnings and ends of the alignment.</p>
+ <p><strong>Fitting alignment</strong>, which tries to align a long sequence with a much smaller sequence. </p>
+				</div>
+			</div>
+		</div>
+		<div class="card is-fullwidth">
+			<header class="card-header">
+				<p style="font-size:24px;"class="card-header-title">Scoring Matrices</p>
+				<a class="card-header-icon card-toggle">
+					<i class="fa fa-angle-down"></i>
+				</a>
+			</header>
+			<div class="card-content is-hidden">
+				<div class="content">
+					<p>As mentioned above, the quality of an alignment is depended on its overall score, which is calculated depending on the amount of gaps, matched and mismatched pairs aligned in the sequences.</p>
+					<p><strong>Scoring Matrices</strong> or <strong>Substitution matrices</strong> are matrices that score the aligned position of amino acids or nucleotide sequences. The two most common used matrices are <strong>PAM</strong> and <strong>BLOSUM</strong>.</p>
+					<p><strong>PAM</strong> (<strong>P</strong>ercent <strong>A</strong>ccepted <strong>M</strong>utation) matrices are usually used score alignments between protein sequences that are closely related. It's good at detecting mutations in alignments which is highly significant for alignments like global alignment.</p>
+					<p>The numbers next to the matrix name (e.g PAM30) denote the evolutionary distances; the higher is the number, the greater is the evolutionary distance.</p>
+					<p><strong>BLOSUM</strong> (<strong>Blo</strong>cks <strong>Su</strong>bstitution <strong>M</strong>atrix) matrices are commonly used to score evolutionary divergence between protein sequences. It is good for detecting highly conserved subsections of alignments.</p>
+					<p>The numbers next to the matrix name denote smaller evolutionary distance (i.e higher sequence similarity))</p>
+				</div>
+			</div>
+		</div>
+		<div class="card is-fullwidth">
+			<header class="card-header">
+				<p style="font-size:24px;"class="card-header-title">References</p>
+				<a class="card-header-icon card-toggle">
+					<i class="fa fa-angle-down"></i>
+				</a>
+			</header>
+			<div class="card-content is-hidden">
+				<div class="content">
+				<p>Rosenberg, M. S. (2009). Sequence Alignment: Methods, Models, Concepts, and Strategies. University of California Press.</p>
+				<p>Mount, D. W. (2008). Comparison of the PAM and BLOSUM Amino Acid Substitution Matrices. CSH Protocols, 2008, pdb.ip59. https://doi.org/10.1101/pdb.ip59</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+</body>
+</html>

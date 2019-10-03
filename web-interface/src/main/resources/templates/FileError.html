@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>File Error!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<style>
+.center {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.padding-top { padding-top: 1rem; }
+</style>
+
+</head>
+<body>
+<nav class="navbar is-dark">
+<div class="container">
+<div class="navbar-brand">
+<a class="navbar-item" href="/" style="font-weight:bold;">Home</a>
+</div>
+<div class="navbar-start">
+<a href="/align" class="navbar-item">Sequence Alignment</a>
+<a href="/info" class="navbar-item">Info</a>
+</div>
+</div>
+</nav>
+<div class="container padding-top">
+<div class="columns">
+				<div class="column">
+					<article class="media notification is-warning">
+						<figure class="media-left">
+							<span class="icon is-medium">
+							 	 <i class="fas fa-2x fa-info-circle"></i>
+							</span>
+						</figure>
+						<div class="media-content">
+							<div class="content">
+								<h1 class="title is-size-3"><a href="/info">Warning: File Error!</a></h1>
+								<p class="is-size-4">
+									You need to make sure that the file exist, is not empty and is in the correct fasta format!
+								</p>
+							</div>
+							</div>
+						</article>
+				</div>
+				</div>
+				 <a class="button is-primary padding-top" style="font-size:18px;" href="/align">Try Again</a>
+</div>
+</body>
+</html>

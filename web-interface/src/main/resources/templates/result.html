@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Alignment Results</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+table {
+border: 1px solid #dddddd;
+  width: 20%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 5px;
+}
+.padding-top { padding-top: 1rem; }
+.center {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .column {
+    display: inline-block;
+  }
+}
+
+caption { 
+  display: table-caption;
+  text-align: left;
+}
+
+</style>
+</head>
+<body>
+<nav class="navbar is-dark is-spaced">
+<div class="container">
+<div class="navbar-brand">
+<a class="navbar-item" href="/" style="font-weight:bold;">Home</a>
+</div>
+<div class="navbar-start">
+<a href="/align" class="navbar-item">Sequence Alignment</a>
+<a href="/info" class="navbar-item">Info</a>
+</div>
+</div>
+</nav>
+<section class="hero is-light">
+		<div class="hero-body">
+			<div class="container center">
+				<h1 class="title is-size-2">Sequence Alignment Results</h1>
+				</div>
+		</div>
+	</section>
+<section class="container is-fluid padding-top">
+			<div class="columns">
+				<div class="column is-half">
+							<div class="box">
+				
+				<div class="notification is-primary">
+    				<p class="center" style="font-size:18px;" th:text="'Optimal Alignment Score: ' + ${align.score}" />
+				</div>
+				</div>
+			<div class="box">
+			<div class="scrolling-wrapper">		
+    <table class="table padding-top">
+    <tr>
+    	<td th:each="i : ${#numbers.sequence(0, #strings.length(align.finalSeq01)-1)}">
+    	<span th:text="${align.finalSeq01[i]}"></span>
+    	</td>
+    </tr>
+     <tr>
+    	<td th:each="i : ${#numbers.sequence(0, #strings.length(align.seqConnections)-1)}">
+    	 <span style="font-weight: bold;" th:text="${align.seqConnections[i]}"></span>
+    	</td>
+    </tr>
+     <tr>
+    	<td th:each="i : ${#numbers.sequence(0, #strings.length(align.finalSeq02)-1)}">
+    	  <span th:text="${align.finalSeq02[i]}"></span>
+    	</td>
+    </tr>
+    <caption>: = mismatched letters aligned, | = matched letters aligned</caption>
+    </table>
+    </div>
+    </div>
+    </div>
+    <div class="column is-half">
+    	<div class="box">
+        <div class="scrolling-wrapper">
+    
+    <table class="table">
+    <tr>
+    <td> </td>
+    <td> </td>
+    <td th:each ="i: ${#numbers.sequence(0, #strings.length(align.secondSeq)-1)}">
+       <span style="font-weight: bold;" th:text="${align.secondSeq[i]}"></span>
+    </td>
+    </tr>
+	    <tr th:each="row, iStat:${align.calculatedScoreMatrix}">
+	    	<td>
+	    	<span style="font-weight: bold;" th:if="${iStat.index != 0}" th:text="${align.firstSeq[iStat.index - 1]}"></span>
+	    	
+	    	</td>
+	    	<td th:each="item: ${row}">
+            <span style="color:red; font-weight: bold;" th:if="${item != null && item.score != null && item.colored==true}" th:text="${item.score}"></span >
+            <span th:if="${item != null && item.score != null && item.colored==false}" th:text="${item.score}"></span >
+        	</td>
+		</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class=container>
+<a class="button is-primary" style="font-size:18px;" href="/align">Get Another Alignment</a>
+</section>
+    
+</body>
+</html>
